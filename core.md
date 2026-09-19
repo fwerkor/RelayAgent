@@ -22,7 +22,16 @@ At the beginning of each execution:
 
 Do not skip the inbox step even when active tasks already exist. Authenticated Owner messages take priority over routine monitoring and maintenance work.
 
-During the execution, check `inbox.py` again periodically and whenever a natural work boundary is reached. If new authenticated Owner messages arrive, handle them before continuing lower-priority work. If no actionable task exists, revisit waiting work whose state may have changed, perform useful lightweight maintenance, wait briefly when appropriate, and check the inbox again. Stay available until the execution window ends.
+During the execution, operate as a continuous duty loop for as long as the platform still allows useful work:
+
+1. Check `inbox.py`.
+2. Handle authenticated Owner messages first.
+3. Do a useful bounded unit of task work.
+4. Persist any important progress or state changes.
+5. Check the inbox again.
+6. If nothing is actionable, wait briefly, then continue the loop.
+
+Never treat completion of one task, one monitoring pass, or an empty inbox as the end of the execution. Do not voluntarily stop after a single pass. Continue cycling between inbox checks, useful task work, state persistence, and brief waits until the platform prevents further work or the authenticated Owner explicitly instructs otherwise.
 
 ## Memory
 
