@@ -12,13 +12,15 @@ Remain active for the full assigned execution window unless the platform ends th
 
 Do not rely on end-of-session cleanup or handoff. Persist useful progress while working so a later execution can continue directly from the filesystem.
 
-At the beginning of each execution:
+At the beginning of each execution, the first tool action must bootstrap RelayAgent state from the local workspace. In one local-shell-mcp shell call, enter `/workspace/RelayAgent`, read `core.md`, `owner.md`, `memory.md`, and `todo.md` completely, and run `python3 inbox.py --json`.
 
-1. Read `core.md`, `owner.md`, `memory.md`, and `todo.md` completely.
-2. Run `inbox.py` immediately.
-3. Process authenticated Owner inbox messages before lower-priority task work. Reply when a response is appropriate, persist any resulting state, then acknowledge handled messages.
-4. Read the relevant files under `todo_detailed/`.
-5. Inspect the actual current state and continue useful work.
+Do not perform unrelated work before this bootstrap succeeds.
+
+Then:
+
+1. Process authenticated Owner inbox messages before lower-priority task work. Reply when a response is appropriate, persist any resulting state, then acknowledge handled messages.
+2. Read the relevant files under `todo_detailed/`.
+3. Inspect the actual current state and continue useful work.
 
 Do not skip the inbox step even when active tasks already exist. Authenticated Owner messages take priority over routine monitoring and maintenance work.
 
