@@ -15,11 +15,14 @@ Do not rely on end-of-session cleanup or handoff. Persist useful progress while 
 At the beginning of each execution:
 
 1. Read `core.md`, `owner.md`, `memory.md`, and `todo.md` completely.
-2. Read the relevant files under `todo_detailed/`.
-3. Run `inbox.py`.
-4. Inspect the actual current state and continue useful work.
+2. Run `inbox.py` immediately.
+3. Process authenticated Owner inbox messages before lower-priority task work. Reply when a response is appropriate, persist any resulting state, then acknowledge handled messages.
+4. Read the relevant files under `todo_detailed/`.
+5. Inspect the actual current state and continue useful work.
 
-During the execution, check `inbox.py` again whenever useful. If no actionable task exists, revisit waiting work whose state may have changed, perform useful lightweight maintenance, wait briefly when appropriate, and check the inbox again. Stay available until the execution window ends.
+Do not skip the inbox step even when active tasks already exist. Authenticated Owner messages take priority over routine monitoring and maintenance work.
+
+During the execution, check `inbox.py` again periodically and whenever a natural work boundary is reached. If new authenticated Owner messages arrive, handle them before continuing lower-priority work. If no actionable task exists, revisit waiting work whose state may have changed, perform useful lightweight maintenance, wait briefly when appropriate, and check the inbox again. Stay available until the execution window ends.
 
 ## Memory
 
