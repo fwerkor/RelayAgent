@@ -5,6 +5,7 @@ Connector modules live in inbox_scripts/*.py and may expose:
 
     fetch() -> list[dict]
     ack(message_id: str) -> None
+    reply(message: dict, text: str) -> None
 
 Each fetched message must contain a stable "id". The aggregator persists
 pending messages before printing them, so an interrupted Agent execution can
@@ -133,6 +134,25 @@ def collect(state: dict[str, Any]) -> list[str]:
     return errors
 
 
+def reply_to(state: dict[str, Any], canonical_id: str, text: str) -> None:
+    pending: dict[str, Any] = state["pending"]
+    item = pending.get(canonical_id)
+    if item is None:
+        raise RuntimeError(f"unknown pending message: {canonical_id}")
+
+    source = item["source"]
+    path = discover_connectors().get(source)
+    if path is None:
+        raise RuntimeError(f"connector no longer exists: {source}")
+
+    connector = load_connector(source, path)
+    reply = getattr(connector, "reply", None)
+    if not callable(reply):
+        raise RuntimeError(f"connector does not support replies: {source}")
+
+    reply(item["message"], text)
+
+
 def acknowledge(state: dict[str, Any], canonical_id: str) -> None:
     pending: dict[str, Any] = state["pending"]
     item = pending.get(canonical_id)
@@ -157,10 +177,22 @@ def acknowledge(state: dict[str, Any], canonical_id: str) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Collect RelayAgent inbox messages")
     parser.add_argument("--ack", metavar="MESSAGE_ID", help="acknowledge one pending message")
+    parser.add_argument("--reply", metavar="MESSAGE_ID", help="reply to one pending message")
+    parser.add_argument("--text", help="reply text used with --reply")
     parser.add_argument("--json", action="store_true", help="emit machine-readable JSON")
     args = parser.parse_args()
 
     state = load_state()
+
+    if args.reply:
+        if args.text is None:
+            parser.error("--reply requires --text")
+        reply_to(state, args.reply, args.text)
+        if args.json:
+            print(json.dumps({"replied": args.reply}, ensure_ascii=False))
+        else:
+            print(f"replied {args.reply}")
+        return 0
 
     if args.ack:
         acknowledge(state, args.ack)

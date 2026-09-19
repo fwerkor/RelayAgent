@@ -134,6 +134,42 @@ If the connector supplies `ack()`, it is called at that point. This allows a mes
 
 Connector code is responsible only for communicating with its source. Authority decisions belong to the Agent using `owner.md`; a connector should not decide whether a message is an Owner instruction.
 
+Connectors may also implement:
+
+```python
+def reply(message, text):
+    ...
+```
+
+RelayAgent can then respond to a pending message before acknowledging it:
+
+```bash
+python inbox.py --reply '<canonical-message-id>' --text 'reply text'
+python inbox.py --ack '<canonical-message-id>'
+```
+
+### Telegram
+
+A Telegram Bot API connector is included at `inbox_scripts/telegram.py`.
+
+Provide its bot token either through `RELAYAGENT_TELEGRAM_BOT_TOKEN` or through the private local file:
+
+```text
+.secrets/telegram.json
+```
+
+with:
+
+```json
+{
+  "bot_token": "123456:..."
+}
+```
+
+The token, Telegram delivery state, and other files under `.secrets/` are ignored by Git. After configuration, send the bot a private message and use the returned numeric `sender_id` to configure the trusted Telegram identity in `owner.md`.
+
+The Telegram connector supports both receiving messages and replying through the same chat.
+
 ## Repository policy
 
 The public repository should normally contain the framework and reusable prompts only. Credentials, inbox state, and private memories should remain outside version control unless the Owner intentionally chooses otherwise. `owner.md` is tracked and may be edited directly for a deployment.

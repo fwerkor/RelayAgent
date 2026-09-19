@@ -1,5 +1,8 @@
 .inbox_state.json
 .inbox_state.tmp
+.telegram_state.json
+.telegram_state.tmp
+.secrets/
 __pycache__/
 *.pyc
 .env
