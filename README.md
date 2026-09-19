@@ -32,15 +32,9 @@ RelayAgent/
 
 ## Setup
 
-Clone the repository and create the private Owner configuration:
+Clone the repository and edit `owner.md` directly to describe the Owner and the trusted identities that can authenticate Owner instructions.
 
-```bash
-cp owner.example.md owner.md
-```
-
-Edit `owner.md` to describe the Owner and the trusted identities that can authenticate Owner instructions.
-
-`owner.md` and inbox delivery state are ignored by Git by default.
+The repository ships with placeholder values in `owner.md`. Replace them for your deployment. Inbox delivery state is ignored by Git by default.
 
 ## Scheduled execution
 
@@ -142,4 +136,4 @@ Connector code is responsible only for communicating with its source. Authority 
 
 ## Repository policy
 
-The public repository should normally contain the framework and reusable prompts only. Deployment-specific identity, credentials, inbox state, and private memories should remain outside version control unless the Owner intentionally chooses otherwise.
+The public repository should normally contain the framework and reusable prompts only. Credentials, inbox state, and private memories should remain outside version control unless the Owner intentionally chooses otherwise. `owner.md` is tracked and may be edited directly for a deployment.
