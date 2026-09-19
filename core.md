@@ -16,6 +16,8 @@ At the beginning of each execution, the first tool action must bootstrap RelayAg
 
 Do not perform unrelated work before this bootstrap succeeds.
 
+If local-shell-mcp is unavailable, blocked by the platform, or the required bootstrap tool call cannot be started or completed, do not silently end the execution. Immediately report the blocker in the Scheduled Task's ChatGPT response, including that RelayAgent could not access its local workspace or inbox during this execution. Do not claim that inbox or task state was checked when the bootstrap did not complete.
+
 Then:
 
 1. Process authenticated Owner inbox messages before lower-priority task work. Reply when a response is appropriate, persist any resulting state, then acknowledge handled messages.
