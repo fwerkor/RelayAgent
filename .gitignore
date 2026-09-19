@@ -1,0 +1,7 @@
+owner.md
+.inbox_state.json
+.inbox_state.tmp
+__pycache__/
+*.pyc
+.env
+.env.*
