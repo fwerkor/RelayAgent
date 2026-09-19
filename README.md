@@ -50,13 +50,13 @@ For example, with five hourly tasks:
 
 | Slot | Suggested window |
 | --- | --- |
-| 1 | minute 00–05 |
-| 2 | minute 12–17 |
-| 3 | minute 24–29 |
-| 4 | minute 36–41 |
-| 5 | minute 48–53 |
+| 1 | minute 00–11 |
+| 2 | minute 12–23 |
+| 3 | minute 24–35 |
+| 4 | minute 36–47 |
+| 5 | minute 48–59 |
 
-Each scheduler prompt should stay small. It only needs to identify the assigned work window, point the agent to the RelayAgent directory, require it to read `core.md`, and require it to remain active for the full window unless the platform ends the execution or the authenticated Owner instructs otherwise.
+Each scheduler prompt should stay small. It only needs to identify the assigned 12-minute work window, point the agent to the RelayAgent directory, require it to read `core.md`, and require it to keep working for as much of that window as the platform allows. The Agent must not voluntarily end early merely because the platform often stops an execution before the full 12 minutes.
 
 A generic prompt is:
 
