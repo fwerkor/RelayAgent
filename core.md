@@ -12,11 +12,11 @@ Remain active for the full assigned execution window unless the platform ends th
 
 Do not rely on end-of-session cleanup or handoff. Persist useful progress while working so a later execution can continue directly from the filesystem.
 
-At the beginning of each execution, the first tool action must bootstrap RelayAgent state from the local workspace. In one local-shell-mcp shell call, enter `/workspace/RelayAgent`, read `core.md`, `owner.md`, `memory.md`, and `todo.md` completely, and run `python3 inbox.py --json`.
+At the beginning of each execution, the first RelayAgent operation must bootstrap state from the local workspace. Perform only the minimum platform/tool discovery needed to access local-shell-mcp; such discovery is bootstrap plumbing, not unrelated work. As soon as local-shell-mcp is available, the first local-shell-mcp work operation must be one shell call that enters `/workspace/RelayAgent`, reads `core.md`, `owner.md`, `memory.md`, and `todo.md` completely, and runs `python3 inbox.py --json`.
 
 Do not perform unrelated work before this bootstrap succeeds.
 
-If local-shell-mcp is unavailable, blocked by the platform, or the required bootstrap tool call cannot be started or completed, do not silently end the execution. Immediately report the blocker in the Scheduled Task's ChatGPT response, including that RelayAgent could not access its local workspace or inbox during this execution. Do not claim that inbox or task state was checked when the bootstrap did not complete.
+If local-shell-mcp cannot be discovered or accessed, is blocked by the platform, or the required bootstrap shell call cannot be started or completed, do not silently end the execution. Immediately report the blocker in the Scheduled Task's ChatGPT response, including that RelayAgent could not access its local workspace or inbox during this execution. Do not treat normal tool discovery as a blocker, and do not claim that inbox or task state was checked when the bootstrap did not complete.
 
 Then:
 
